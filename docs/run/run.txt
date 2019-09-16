@@ -1,0 +1,50 @@
+## Development
+
+- Single Eureka Server
+
+1. mvn spring-boot:run
+
+mvn spring-boot:run -Dport=7020 -Dmgmt-port=7021 -Deureka.instance.hostname=localhost -Dspring.cloud.config.label=master -Deureka.client.register-with-eureka=false -Deureka.client.fetch-registry=false -Deureka.client.service-url.defaultZone=http://localhost:7020/eureka/ -Deureka.environment=Development -Deureka.datacenter=T-Doer
+
+2. IDEA debug/run
+
+   2.1 program argument:
+
+   --port=7020 --mgmt-port=7021 --eureka.instance.hostname=localhost --spring.cloud.config.label=master --eureka.client.register-with-eureka=false --eureka.client.fetch-registry=false --eureka.client.service-url.defaultZone=http://localhost:7020/eureka/ --eureka.environment=Development --eureka.datacenter=T-Doer
+
+   2.2 or system environment
+
+   -Dport=7020 -Dmgmt-port=7021 -Deureka.instance.hostname=localhost -Dspring.cloud.config.label=master -Deureka.client.register-with-eureka=false -Deureka.client.fetch-registry=false -Deureka.client.service-url.defaultZone=http://localhost:7020/eureka/ -Deureka.environment=Development -Deureka.datacenter=T-Doer
+
+
+- Eureka HA: peer1/peer2
+
+In hosts, add peer1 peer2 mapping to localshost.
+
+1. IDEA debug/run
+
+   2.1 program argument:
+
+   peer1:
+
+   --port=7020 --mgmt-port=7021 --eureka.instance.hostname=peer1 --spring.cloud.config.label=master --eureka.client.register-with-eureka=true --eureka.client.fetch-registry=true --eureka.client.service-url.defaultZone=http://peer2:7026/eureka/ --eureka.environment=Developmet --eureka.datacenter=T-Doer
+
+   peer2:
+
+   --port=7026 --mgmt-port=7027 --eureka.instance.hostname=peer2 --spring.cloud.config.label=master --eureka.client.register-with-eureka=true --eureka.client.fetch-registry=true --eureka.client.service-url.defaultZone=http://peer1:7020/eureka/ --eureka.environment=Developmet --eureka.datacenter=T-Doer
+
+   2.2 or system environment
+
+   peer1:
+
+   -Dport=7020 -Dmgmt-port=7021 -Deureka.instance.hostname=peer1 -Dspring.cloud.config.label=master -Deureka.client.register-with-eureka=true -Deureka.client.fetch-registry=true -Deureka.client.service-url.defaultZone=http://peer2:7026/eureka/ -Deureka.environment=Developmet -Deureka.datacenter=T-Doer
+
+   peer2:
+
+   -Dport=7026 -Dmgmt-port=7027 -Deureka.instance.hostname=peer2 -Dspring.cloud.config.label=master -Deureka.client.register-with-eureka=true -Deureka.client.fetch-registry=true -Deureka.client.service-url.defaultZone=http://peer1:7020/eureka/ -Deureka.environment=Developmet -Deureka.datacenter=T-Doer
+
+## Test and Production
+
+Please see scripts/runEureka.sh
+
+add test

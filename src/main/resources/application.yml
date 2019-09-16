@@ -1,0 +1,115 @@
+spring:
+  application:
+    name: tdoer-service-registry
+    admin:
+      enabled: true
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: springcloud
+#    password: spring123
+#    virtual-host: /
+#  redis:
+#    host: 192.168.220.179
+#    port: 6379
+#    password: nhy67ujm
+#    timeout: 1000
+#    database: 0
+#  cache:
+#      type: redis
+
+
+eureka:
+  instance:
+    # hostname: peer1
+    # namespace: enreka
+    appname: ${spring.application.name}
+    prefer-ip-address: false
+    instance-enabled-onit: false
+    ## endpoints
+    home-page-url-path: /
+    health-check-url-path: /management/health
+    status-page-url-path: /management/info
+    ## instance ports open for service consumers
+    # non-secure-port-enabled: true
+    # non-secure-port: 80
+    # secure-port-enabled: false
+    # secure-port: 443
+    ## renew lease
+    lease-expiration-duration-in-seconds: 90
+    lease-renewal-interval-in-seconds: 30
+    metadata-map:
+      user:
+        name: operator
+        password: bboperator!@#
+      management:
+        port: ${management.server.port}
+        context-path: ${management.endpoints.web.base-path}
+  client:
+    ## basic
+    enabled: true
+    allow-redirects: false
+#    region: cn-shanghai
+#    availability-zones:
+#      cn-shanghai: cn-shanghai-b,cn-shanghai-c,cn-shanghai-d
+    #service-url:
+    #  defaultZone: http://${eureka.peer.hostname}:${eureka.peer.port}/eureka/
+    #  cn-shanghai-b: http://${eureka.peer.hostname}:${eureka.peer.port}/eureka/
+
+    ## register the instance
+    register-with-eureka: false
+
+    ## replicate instance info Eureka server
+    initial-instance-info-replication-interval-seconds: 40
+    instance-info-replication-interval-seconds: 30
+    heartbeat-executor-exponential-back-off-bound: 10
+    heartbeat-executor-thread-pool-size: 2
+    on-demand-update-status-change: true
+
+    ## fetch
+    fetch-registry: false
+    # fetch-remote-regions-registry: cn-shanghai
+    prefer-same-zone-eureka: true
+    filter-only-up-instances: true
+    g-zip-content: true
+    disable-delta: false
+    registry-fetch-interval-seconds: 30
+    use-dns-for-fetching-service-urls: false
+    cache-refresh-executor-thread-pool-size: 2
+    cache-refresh-executor-exponential-back-off-bound: 10
+
+
+    ## connections and timeouts
+    eureka-server-total-connections: 200
+    eureka-server-total-connections-per-host: 50
+    eureka-connection-idle-timeout-seconds: 30
+    eureka-server-connect-timeout-seconds: 5
+    eureka-server-read-timeout-seconds: 8
+
+    ## log
+    log-delta-diff: false
+  server:
+    enable-self-preservation: false
+
+server:
+  port: ${port:7020}
+
+## Management related configurations
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+    health:
+      show-details: always
+  endpoints:
+    enabled-by-default: true
+    web:
+      base-path: /management
+      exposure:
+        include: "*"
+        exclude: "shutdown"
+    jmx:
+      exposure:
+        include: "*"
+  server:
+    port: ${mgmt-port:7021}
