@@ -1,2 +1,6 @@
 /.idea/
 /tdoer-service-registry.iml
+/target
+/bin
+.settings
+.project
